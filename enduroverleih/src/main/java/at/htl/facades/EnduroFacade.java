@@ -4,6 +4,7 @@ package at.htl.facades;
 import at.htl.entities.Enduro;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
