@@ -1,29 +1,78 @@
-<html xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
     <title>Enduroverleih</title>
 </h:head>
 
 <h:body>
-<p:dataTable id="enduro_table" var="enduro" value="#{indexController.enduros}">
-    <p:column headerText="Preis">
-        <h:outputText value="#{enduro.price}"/>
-    </p:column>
-
-    <p:column headerText="Leistung">
-        <h:outputText value="#{enduro.horsepower}"/>
-    </p:column>
-</p:dataTable>
-    <h:form id="form_detail">
-        <h:outputLabel for="price" value="Preis"/>
-        <h:inputText id="price" value="#{indexController.currentEnduro.price}"/>
-
-        <h:outputLabel for="horsepower" value="Leistung"/>
-        <h:inputText id="horsepower" value="#{indexController.currentEnduro.horsepower}"/>
-
-        <p:commandButton value="Save"
-                         update="enduro_table form_detail"
-                         icon="ui-icon-disk"
-                         actionListener="#{indexController.doSaveEnduro}"/>
-    </h:form>
+    <hr></hr>
+    <h1 align="center">Verfügbare Enduros</h1>
+    <hr></hr>
+    <p:dataTable id="enduro_table" var="enduro" value="#{indexController.enduros}">
+        <p:column headerText="Marke" width="20%">
+            <h:outputText value="#{enduro.brand}" />
+        </p:column>
+        <p:column headerText="Modell" width="20%">
+            <h:outputText value="#{enduro.modell}" />
+        </p:column>
+        <p:column headerText="Leistung" width="20%">
+            <h:outputText value="#{enduro.horsepower}" />
+        </p:column>
+        <p:column headerText="Preis" width="20%">
+            <h:outputText value="#{enduro.price}" />
+        </p:column>
+        <p:column width="20%">
+            <p:commandButton title="Jetzt leihen" value="Jetzt leihen"
+                             update=":enduro_table"
+                             styleClass="ui-priority-primary"
+                             type="submit"
+                             actionListener="#{indexController.buttonJetztLeihen}">
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
+    <hr></hr>
+    <h1 align="center">Ausgeliehene Enduros</h1>
+    <hr></hr>
+    <p:dataTable id="enduro_verliehen" var="verliehene" value="#{indexController.verliehene}">
+        <p:column headerText="Marke" width="16%">
+            <h:outputText value="#{verliehene.enduro.brand}" />
+        </p:column>
+        <p:column headerText="Modell" width="16%">
+            <h:outputText value="#{verliehene.enduro.modell}" />
+        </p:column>
+        <p:column headerText="Name des Kunden" width="16%">
+            <h:outputText value="#{verliehene.kunde.lastName} #{verliehene.kunde.firstName}" />
+        </p:column>
+        <p:column headerText="Ausgeliehen am:" width="16%">
+            <h:outputText value="#{verliehene.von}" />
+        </p:column>
+        <p:column headerText="Rückgabe fällig am:" width="16%">
+            <h:outputText value="#{verliehene.bis}" />
+        </p:column>
+        <p:column style="width:32px;text-align: center" width="16%">
+            <p:commandButton title="View" value="Jetzt zurückgeben">
+                <f:setPropertyActionListener value="#{indexController.buttonJetztZurueckgeben}" target="#{indexController.currentVerleih}" />
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
+    <hr></hr>
+    <h1 align="center">Breits registrierte Kunden</h1>
+    <hr></hr>
+    <p:dataTable id="kunde_table" var="kunde" value="#{indexController.kunden}">
+        <p:column headerText="Vorname" width="33%">
+            <h:outputText value="#{kunde.firstName}" />
+        </p:column>
+        <p:column headerText="Nachname" width="33%">
+            <h:outputText value="#{kunde.lastName}" />
+        </p:column>
+        <p:column style="text-align: center" width="33%">
+            <p:commandButton title="View" value="Kunde löschen">
+                <f:setPropertyActionListener value="#{indexController.buttonKundeLoeschen}" target="#{indexController.currentKunde}" />
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
 </h:body>
 </html>
+
+
+

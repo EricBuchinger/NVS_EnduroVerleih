@@ -32,18 +32,20 @@ public class InitBean {
     @PostConstruct
     public void init(){
         Kunde kunde = new Kunde("Eric","Buchinger");
+        Kunde kunde2 = new Kunde("Ines", "Scherfler");
         kundeFacade.persistKunde(kunde);
-        Verleih verleih = new Verleih();
-        verleih.setBis("21");
-        verleih.setVon("12");
-        verleih.setKunde(kunde);
+        kundeFacade.persistKunde(kunde2);
+        Enduro enduro = new Enduro("200","50","Husqvarna","FE 501");
+        enduroFacade.persistEnduro(enduro);
+        Verleih verleih = new Verleih(kunde,"10.4.2018","30.4.2018",enduro);
         verleihFacade.persistVerleih(verleih);
-        List<Verleih> verleihs = new LinkedList<>();
-        verleihs.add(verleih);
-        Enduro enduro = new Enduro();
-        enduro.setHorsepower("10 PS");
-        enduro.setPrice("10000 €");
-        enduro.setVerleihs(verleihs);
+        enduro = new Enduro("150","40","KTM","EXC 125");
+        verleih = new Verleih(kunde2,"01.04.2018","30.08.2018",enduro);
+        enduroFacade.persistEnduro(enduro);
+        verleihFacade.persistVerleih(verleih);
+        enduro = new Enduro("200","45","Husaberg","FE 250");
+        enduroFacade.persistEnduro(enduro);
+        enduro = new Enduro("200","50","Husqvarna","FE 701");
         enduroFacade.persistEnduro(enduro);
         System.out.println("*****Works*****");
     }

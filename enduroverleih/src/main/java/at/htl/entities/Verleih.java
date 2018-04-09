@@ -10,13 +10,26 @@ public class Verleih {
 
     @OneToOne
     Kunde kunde;
+    @OneToOne
+    Enduro enduro;
+
     String von;
     String bis;
 
-    public Verleih(Kunde kunde, String von, String bis) {
+    public Enduro getEnduro() {
+        return enduro;
+    }
+
+    public void setEnduro(Enduro enduro) {
+        this.enduro = enduro;
+    }
+
+
+    public Verleih(Kunde kunde, String von, String bis, Enduro enduro) {
         this.kunde = kunde;
         this.von = von;
         this.bis = bis;
+        this.enduro = enduro;
     }
 
     public Verleih() {

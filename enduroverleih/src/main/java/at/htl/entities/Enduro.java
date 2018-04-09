@@ -8,20 +8,34 @@ public class Enduro {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    String brand;
+    String modell;
     String price;
     String horsepower;
-
-    @OneToMany
-    List<Verleih> verleihs;
 
     public Enduro() {
     }
 
-    public Enduro(int id, String price, String horsepower, List<Verleih> verleihs) {
-        this.id = id;
+    public Enduro(String price, String horsepower, String brand, String modell) {
         this.price = price;
         this.horsepower = horsepower;
-        this.verleihs = verleihs;
+        this.modell = modell;
+        this.brand = brand;
+    }
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModell() {
+        return modell;
+    }
+
+    public void setModell(String modell) {
+        this.modell = modell;
     }
 
     public int getId() {
@@ -46,13 +60,5 @@ public class Enduro {
 
     public void setHorsepower(String horsepower) {
         this.horsepower = horsepower;
-    }
-
-    public List<Verleih> getVerleihs() {
-        return verleihs;
-    }
-
-    public void setVerleihs(List<Verleih> verleihs) {
-        this.verleihs = verleihs;
     }
 }
