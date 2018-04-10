@@ -3,9 +3,12 @@ package at.htl.facades;
 import at.htl.entities.Enduro;
 import at.htl.entities.Kunde;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Stateless

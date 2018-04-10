@@ -17,13 +17,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RequestScoped
 @ManagedBean(name="indexController")
+@Model
 public class IndexController implements Serializable {
 
     List<Enduro> enduros;
@@ -31,8 +30,9 @@ public class IndexController implements Serializable {
     List<Kunde> kunden;
     Enduro currentEnduro;
     Verleih currentVerleih;
-    Kunde currentKunde;
-
+    String gesamtLeihe;
+    String vorname;
+    String nachname;
     @Inject
     EnduroFacade enduroFacade;
 
@@ -45,20 +45,17 @@ public class IndexController implements Serializable {
     public IndexController() {
         currentEnduro = new Enduro();
     }
+    public String moveToLeihPage() {
+        return "leihpage";
+    }
+    public String getGesamtLeihe(){
+        double c = Double.parseDouble(currentEnduro.getPrice()) + Double.parseDouble(currentEnduro.getHorsepower())*5;
+        gesamtLeihe = String.valueOf(c);
+        return gesamtLeihe;
+    }
     public void doSaveEnduro(){
         enduros = enduroFacade.getAllEnduros();
         enduroFacade.persistEnduro(currentEnduro);
-    }
-    public void buttonJetztLeihen() {
-        System.out.println("****WORKS*****");
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message Title", "Message body");
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
-    public void buttonJetztZurueckgeben() {
-        System.out.println("*****Button works****");
-    }
-    public void buttonKundeLoeschen() {
-        System.out.println("*****Button works****");
     }
     public List<Enduro> getEnduros() {
         enduros=enduroFacade.getAllEnduros();
@@ -72,13 +69,50 @@ public class IndexController implements Serializable {
         return currentEnduro;
     }
     public List<Kunde> getKunden(){
-        return kundeFacade.getAllKunden();
+        kunden = kundeFacade.getAllKunden();
+        return kunden;
+    }
+    public void speichereLeihe(){
+        if(vorname!="" && nachname!="") {
+            Kunde kunde = new Kunde(vorname, nachname);
+            kundeFacade.persistKunde(kunde);
+            System.out.println(currentEnduro.getBrand());
+            //Verleih verleih = new Verleih(kunde
+            //        , LocalDateTime.now().toString()
+            //        , LocalDateTime.now().plusDays(30).toString()
+            //        ,getEnduros().get(getEnduros().indexOf(currentEnduro)));
+            //verleihFacade.persistVerleih(verleih);
+        }
+
     }
     public Verleih getCurrentVerleih() {
         return currentVerleih;
     }
+    public String getVorname() {
+        return vorname;
+    }
 
-    public Kunde getCurrentKunde() {
-        return currentKunde;
+    public void setVorname(String vorname) {
+        this.vorname = vorname;
+    }
+
+    public String getNachname() {
+        return nachname;
+    }
+
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
+    }
+    public String moveToMainPage(){
+        return "index";
+    }
+    public void setCurrentEnduro(Enduro currentEnduro) {
+        this.currentEnduro = currentEnduro;
+        System.out.println(currentEnduro.getBrand());
+    }
+
+    public void setCurrentVerleih(Verleih currentVerleih) {
+        this.currentVerleih = currentVerleih;
+        System.out.println(currentVerleih.getBis());
     }
 }

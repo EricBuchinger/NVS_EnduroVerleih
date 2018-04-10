@@ -8,7 +8,8 @@
     <hr></hr>
     <h1 align="center">Verfügbare Enduros</h1>
     <hr></hr>
-    <p:dataTable id="enduro_table" var="enduro" value="#{indexController.enduros}">
+    <h:form id="enduro_table">
+    <p:dataTable var="enduro" value="#{indexController.enduros}">
         <p:column headerText="Marke" width="20%">
             <h:outputText value="#{enduro.brand}" />
         </p:column>
@@ -22,18 +23,22 @@
             <h:outputText value="#{enduro.price}" />
         </p:column>
         <p:column width="20%">
-            <p:commandButton title="Jetzt leihen" value="Jetzt leihen"
-                             update=":enduro_table"
+            <h:commandButton title="Jetzt leihen" value="Jetzt leihen"
+                             update="enduro_table"
                              styleClass="ui-priority-primary"
+                             style="text-align: center"
                              type="submit"
-                             actionListener="#{indexController.buttonJetztLeihen}">
-            </p:commandButton>
+                             action="#{indexController.moveToLeihPage}">
+                <f:setPropertyActionListener value="#{enduro}" target="#{indexController.currentEnduro}"/>
+            </h:commandButton>
         </p:column>
     </p:dataTable>
+    </h:form>
     <hr></hr>
     <h1 align="center">Ausgeliehene Enduros</h1>
     <hr></hr>
-    <p:dataTable id="enduro_verliehen" var="verliehene" value="#{indexController.verliehene}">
+    <h:form id="enduro_verliehen">
+    <p:dataTable var="verliehene" value="#{indexController.verliehene}">
         <p:column headerText="Marke" width="16%">
             <h:outputText value="#{verliehene.enduro.brand}" />
         </p:column>
@@ -50,27 +55,29 @@
             <h:outputText value="#{verliehene.bis}" />
         </p:column>
         <p:column style="width:32px;text-align: center" width="16%">
-            <p:commandButton title="View" value="Jetzt zurückgeben">
-                <f:setPropertyActionListener value="#{indexController.buttonJetztZurueckgeben}" target="#{indexController.currentVerleih}" />
+            <p:commandButton title="Jetzt zurückgeben" value="Jetzt zurückgeben"
+                             update="enduro_table"
+                             styleClass="ui-priority-primary"
+                             style="text-align: center"
+                             type="submit">
+                <f:setPropertyActionListener value="#{verliehene}" target="#{indexController.currentVerleih}"/>
             </p:commandButton>
         </p:column>
     </p:dataTable>
+    </h:form>
     <hr></hr>
-    <h1 align="center">Breits registrierte Kunden</h1>
+    <h1 align="center">Bereits registrierte Kunden</h1>
     <hr></hr>
-    <p:dataTable id="kunde_table" var="kunde" value="#{indexController.kunden}">
-        <p:column headerText="Vorname" width="33%">
+    <h:form id="kunde_table">
+    <p:dataTable var="kunde" value="#{indexController.kunden}">
+        <p:column headerText="Vorname" width="50%">
             <h:outputText value="#{kunde.firstName}" />
         </p:column>
-        <p:column headerText="Nachname" width="33%">
+        <p:column headerText="Nachname" width="50%">
             <h:outputText value="#{kunde.lastName}" />
         </p:column>
-        <p:column style="text-align: center" width="33%">
-            <p:commandButton title="View" value="Kunde löschen">
-                <f:setPropertyActionListener value="#{indexController.buttonKundeLoeschen}" target="#{indexController.currentKunde}" />
-            </p:commandButton>
-        </p:column>
     </p:dataTable>
+    </h:form>
 </h:body>
 </html>
 
